@@ -891,19 +891,10 @@
     const downloadText = document.getElementById('download-text');
     
     const downloadData = {
-  'viernes': {
-    href: 'https://placenet.app/wp-content/uploads/2025/07/Horario_viernes.png',
-    text: 'Descargar horario'
-  },
-  'sabado': {
-    href: 'https://placenet.app/wp-content/uploads/2025/07/Horario_sabado.png',
-    text: 'Descargar horario'
-  },
-  'domingo': {
-    href: 'https://placenet.app/wp-content/uploads/2025/07/Horario_domingo.png',
-    text: 'Descargar horario'
-  }
-};
+      'viernes': { href: 'Horario_viernes.png', text: 'Descargar horario' },
+      'sabado': { href: 'Horario_sabado.png', text: 'Descargar horario' },
+      'domingo': { href: 'Horario_domingo.png', text: 'Descargar horario' }
+    };
 
     
     downloadLink.href = downloadData[day].href;
