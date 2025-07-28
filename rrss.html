@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redes Sociales · RFEA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .social-embed {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+  <header class="w-full">
+    <img src="header.png" alt="Banner redes sociales" class="w-full h-auto object-cover max-h-48" />
+  </header>
+
+  <main class="max-w-xl mx-auto px-4 py-6 space-y-8">
+
+
+
+        <!-- X (Twitter) -->
+    <div class="social-embed text-center p-6 text-white" style="background-color: #b50016;">
+      <div class="space-y-4">
+        <div class="flex items-center justify-center space-x-2">
+          <img src="x.svg" alt="X Logo" class="w-6 h-6 brightness-0 invert"  />
+          <h3 class="font-bold text-xl">Síguenos en X</h3>
+        </div>
+        <p class="text-red-100">Las últimas noticias del atletismo español</p>
+        <div class="space-y-3">
+          <a href="https://twitter.com/atletismoRFEA" 
+             target="_blank" 
+             class="inline-block bg-white text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-red-50 transition-colors">
+             @atletismoRFEA
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instagram -->
+    <div class="social-embed">
+      <iframe src="https://www.instagram.com/atletismorfea/embed/" width="100%" height="500" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+    </div>
+
+    <!-- TikTok -->
+    <div class="social-embed text-center p-6 text-white" style="background-color: #b50016;">
+      <div class="space-y-4">
+        <div class="flex items-center justify-center space-x-2">
+          <img src="tiktok.svg" alt="TikTok Logo" class="w-6 h-6 brightness-0 invert"  />
+          <h3 class="font-bold text-xl">TikTok</h3>
+        </div>
+        <p class="text-red-100">Perfil oficial de las RFEA</p>
+        <div class="space-y-2">
+          <a href="#" 
+             onclick="openTikTok()"
+             class="inline-block bg-white text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-red-50 transition-colors">
+             @atletismorfea
+          </a>
+          <br>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Facebook -->
+    <div class="social-embed">
+      <iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/atletismoRFEA&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" width="100%" height="600" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
+    </div>
+
+    <!-- YouTube -->
+    <div class="social-embed text-center p-6 text-white" style="background-color: #b50016;">
+      <div class="space-y-4">
+        <div class="flex items-center justify-center space-x-2">
+          <img src="yt.svg" alt="YouTube Logo" class="w-6 h-6 brightness-0 invert"  />
+          <h3 class="font-bold text-xl">YouTube</h3>
+        </div>
+        <p class="text-red-100">Canal oficial del atletismo español</p>
+        <div class="space-y-2">
+          <a href="https://www.youtube.com/@atletismoRFEA" 
+             target="_blank"
+             class="inline-block bg-white text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-red-50 transition-colors">
+             Canal YouTube
+          </a>
+          <br>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horarios · Campeonato RFEA 2025</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .btn-rfea {
+      background-color: #dd0020;
+      color: white;
+    }
+    .btn-rfea:hover {
+      background-color: #dd0020;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="w-full">
+    <img src="header.png" alt="Banner campeonato" class="w-full h-auto object-cover max-h-48 sm:max-h-64" />
+  </header>
+
+   <main class="max-w-3xl mx-auto px-3 sm:px-4 md:px-6 py-6 sm:py-8 md:py-12 text-left">
+    <h1 class="text-3xl font-bold mb-8 text-left">
+      Horarios
+    </h1>
+
+    
+    <!-- Acordeón -->
+    <div class="space-y-4" id="accordion-root">
+
+   <!-- Sección 1 -->
+      <div>
+        <button onclick="toggleAccordion('section-1')" class="w-full flex justify-between items-center bg-red-100 text-black-800 font-semibold px-4 py-3 rounded-lg">
+          Horario de Competición
+          <span id="icon-section-1" class="transition-transform duration-300">▼</span>
+        </button>
+        <div id="section-1" class="accordion-section hidden mt-2">
+          <div class="bg-white rounded-xl shadow-lg p-6">
+    <!-- Sección 1: Horario de Competición -->
+    
+      
+      
+      <!-- Tabs para seleccionar día -->
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button onclick="showDay('viernes')" id="btn-viernes" class="px-4 py-2 rounded-lg bg-red-600 text-white font-semibold">Viernes 1</button>
+        <button onclick="showDay('sabado')" id="btn-sabado" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold">Sábado 2</button>
+        <button onclick="showDay('domingo')" id="btn-domingo" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold">Domingo 3</button>
+      </div>
+
+      <!-- Opciones de visualización -->
+      <div class="flex flex-wrap gap-4 mb-6">
+        <a href="Horario1.png" download id="download-link" class="inline-flex items-center gap-2 text-red-600 underline px-4 py-2 rounded-lg transition-colors">
+           <span id="download-text">Descargar horario</span>
+        </a>
+        <button onclick="toggleView()" id="toggle-btn" class="inline-flex items-center gap-2 text-red-600 underline  px-4 py-2 rounded-lg transition-colors">
+          <span id="toggle-text">Ver tabla</span>
+        </button>
+      </div>
+
+      <!-- Vista de imágenes -->
+      <div id="image-view" class="space-y-4">
+        <div id="day-viernes" class="day-schedule">
+          <a href="Horario_viernes.png" target="_blank">
+            <img src="Horario_viernes.png" alt="Horario Viernes 1" class="w-full h-auto object-contain rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity" style="max-height: 600px;" />
+          </a>
+        </div>
+        <div id="day-sabado" class="day-schedule hidden">
+          <a href="Horario_sabado.png" target="_blank">
+            <img src="Horario_sabado.png" alt="Horario Sábado 2" class="w-full h-auto object-contain rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity" style="max-height: 600px;" />
+          </a>
+        </div>
+        <div id="day-domingo" class="day-schedule hidden">
+          <a href="Horario_domingo.png" target="_blank">
+            <img src="Horario_domingo.png" alt="Horario Domingo 3" class="w-full h-auto object-contain rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity" style="max-height: 600px;" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Vista de tabla interactiva -->
+      <div id="table-view" class="hidden">
+        <!-- Viernes -->
+        <div id="table-viernes" class="day-table">
+          <h3 class="text-lg font-semibold mb-3 text-center bg-gradient-to-r from-purple-500 to-orange-400 text-white py-2 rounded-lg">VIERNES 1 DE AGOSTO</h3>
+          
+          <div class="mb-6">
+            <h4 class="font-semibold mb-2 text-gray-800 bg-gray-100 px-3 py-1 rounded">MAÑANA</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-700">
+                    <th class="py-2 px-2 text-left">Hora</th>
+                    <th class="py-2 px-2 text-left">Prueba</th>
+                    <th class="py-2 px-2 text-center">Categoría</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">09:30</td>
+                    <td class="py-2 px-2">100 m Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">09:45</td>
+                    <td class="py-2 px-2">100 m vallas Heptatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">10:00</td>
+                    <td class="py-2 px-2"><strong>10.000 M MARCHA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">10:10</td>
+                    <td class="py-2 px-2">Longitud Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">10:25</td>
+                    <td class="py-2 px-2">Altura Heptatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">11:00</td>
+                    <td class="py-2 px-2"><strong>DISCO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:05</td>
+                    <td class="py-2 px-2">100 m Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">11:30</td>
+                    <td class="py-2 px-2">100 m Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:35</td>
+                    <td class="py-2 px-2">Peso Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:55</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">400 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">12:20</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">400 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-2 text-gray-800 bg-gray-100 px-3 py-1 rounded">TARDE</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-700">
+                    <th class="py-2 px-2 text-left">Hora</th>
+                    <th class="py-2 px-2 text-left">Prueba</th>
+                    <th class="py-2 px-2 text-center">Categoría</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">19:30</td>
+                    <td class="py-2 px-2">Altura Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">19:30</td>
+                    <td class="py-2 px-2">Peso Heptatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">19:40</td>
+                    <td class="py-2 px-2"><strong>PÉRTIGA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">19:45</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">400 m vallas Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:00</td>
+                    <td class="py-2 px-2"><strong>100 m FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">20:15</td>
+                    <td class="py-2 px-2"><strong>100 m FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:30</td>
+                    <td class="py-2 px-2">Pértiga Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:45</td>
+                    <td class="py-2 px-2"><strong>DISCO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">21:00</td>
+                    <td class="py-2 px-2">400 m Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">21:15</td>
+                    <td class="py-2 px-2">400 m Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">21:30</td>
+                    <td class="py-2 px-2"><strong>PESO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">21:45</td>
+                    <td class="py-2 px-2">200 m Heptatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">22:00</td>
+                    <td class="py-2 px-2">400 m Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+       <!-- Sábado -->
+        <div id="table-sabado" class="day-table hidden">
+          <h3 class="text-lg font-semibold mb-3 text-center bg-gradient-to-r from-purple-500 to-orange-400 text-white py-2 rounded-lg">SÁBADO 2 DE AGOSTO</h3>
+          
+          <div class="mb-6">
+            <h4 class="font-semibold mb-2 text-gray-800 bg-gray-100 px-3 py-1 rounded">MAÑANA</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-700">
+                    <th class="py-2 px-2 text-left">Hora</th>
+                    <th class="py-2 px-2 text-left">Prueba</th>
+                    <th class="py-2 px-2 text-center">Categoría</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">09:30</td>
+                    <td class="py-2 px-2">110 m vallas Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">09:50</td>
+                    <td class="py-2 px-2"><strong>10000 M MARCHA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">10:10</td>
+                    <td class="py-2 px-2">Disco Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">11:15</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">1500 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:30</td>
+                    <td class="py-2 px-2"><strong>MARTILLO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">11:35</td>
+                    <td class="py-2 px-2">Longitud Heptatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:45</td>
+                    <td class="py-2 px-2">Pértiga Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:50</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">1500 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">12:25</td>
+                    <td class="py-2 px-2">200 m Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">12:55</td>
+                    <td class="py-2 px-2">200 m Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">13:15</td>
+                    <td class="py-2 px-2">Jabalina Heptatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-2 text-gray-800 bg-gray-100 px-3 py-1 rounded">TARDE</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-700">
+                    <th class="py-2 px-2 text-left">Hora</th>
+                    <th class="py-2 px-2 text-left">Prueba</th>
+                    <th class="py-2 px-2 text-center">Categoría</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">19:30</td>
+                    <td class="py-2 px-2"><strong>LONGITUD FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">19:40</td>
+                    <td class="py-2 px-2">Jabalina Decatlón</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">19:50</td>
+                    <td class="py-2 px-2"><strong>PÉRTIGA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">20:00</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">800 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:25</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">800 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">20:50</td>
+                    <td class="py-2 px-2"><strong>800 M HEPTATLÓN FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">21:00</td>
+                    <td class="py-2 px-2"><strong>MARTILLO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">21:05</td>
+                    <td class="py-2 px-2"><strong>3000 M OBSTÁCULOS FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">21:20</td>
+                    <td class="py-2 px-2"><strong>TRIPLE SALTO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">21:25</td>
+                    <td class="py-2 px-2"><strong>1500 M DECATLÓN FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">21:40</td>
+                    <td class="py-2 px-2"><strong>5000 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">22:05</td>
+                    <td class="py-2 px-2"><strong>400 M VALLAS FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">22:15</td>
+                    <td class="py-2 px-2"><strong>400 M VALLAS FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">22:30</td>
+                    <td class="py-2 px-2"><strong>400 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">22:40</td>
+                    <td class="py-2 px-2"><strong>400 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Domingo -->
+        <div id="table-domingo" class="day-table hidden">
+          <h3 class="text-lg font-semibold mb-3 text-center bg-gradient-to-r from-purple-500 to-orange-400 text-white py-2 rounded-lg">DOMINGO 3 DE AGOSTO</h3>
+          
+          <div class="mb-6">
+            <h4 class="font-semibold mb-2 text-gray-800 bg-gray-100 px-3 py-1 rounded">MAÑANA</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-700">
+                    <th class="py-2 px-2 text-left">Hora</th>
+                    <th class="py-2 px-2 text-left">Prueba</th>
+                    <th class="py-2 px-2 text-center">Categoría</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">10:40</td>
+                    <td class="py-2 px-2"><strong>ALTURA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">10:50</td>
+                    <td class="py-2 px-2"><strong>JABALINA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">11:00</td>
+                    <td class="py-2 px-2">100 m vallas Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:15</td>
+                    <td class="py-2 px-2"><strong>PESO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">11:30</td>
+                    <td class="py-2 px-2">110 m vallas Primera Ronda</td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">12:00</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">200 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">12:15</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">200 m Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">12:35</td>
+                    <td class="py-2 px-2"><strong>1500 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">12:45</td>
+                    <td class="py-2 px-2"><strong>1500 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-2 text-gray-800 bg-gray-100 px-3 py-1 rounded">TARDE</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 text-gray-700">
+                    <th class="py-2 px-2 text-left">Hora</th>
+                    <th class="py-2 px-2 text-left">Prueba</th>
+                    <th class="py-2 px-2 text-center">Categoría</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">19:30</td>
+                    <td class="py-2 px-2"><strong>ALTURA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">19:40</td>
+                    <td class="py-2 px-2"><strong>JABALINA FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">19:45</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">100 m vallas Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:00</td>
+                    <td class="py-2 px-2"><strong class="text-gray-600">110 m vallas Semifinal</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">20:15</td>
+                    <td class="py-2 px-2"><strong>PESO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:20</td>
+                    <td class="py-2 px-2"><strong>TRIPLE SALTO FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:25</td>
+                    <td class="py-2 px-2"><strong>200 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">20:35</td>
+                    <td class="py-2 px-2"><strong>200 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">20:45</td>
+                    <td class="py-2 px-2"><strong>800 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">20:55</td>
+                    <td class="py-2 px-2"><strong>800 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">21:10</td>
+                    <td class="py-2 px-2"><strong>100 M VALLAS FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">21:25</td>
+                    <td class="py-2 px-2"><strong>110 M VALLAS FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">21:40</td>
+                    <td class="py-2 px-2"><strong>4 X 100 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">21:50</td>
+                    <td class="py-2 px-2"><strong>4 X 100 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                  <tr class="border-b bg-orange-50">
+                    <td class="py-2 px-2 font-mono">22:05</td>
+                    <td class="py-2 px-2"><strong>4 X 400 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-orange-500 text-white px-2 py-1 rounded text-xs">H</span></td>
+                  </tr>
+                  <tr class="border-b bg-purple-50">
+                    <td class="py-2 px-2 font-mono">22:15</td>
+                    <td class="py-2 px-2"><strong>4 X 400 M FINAL</strong></td>
+                    <td class="py-2 px-2 text-center"><span class="bg-purple-500 text-white px-2 py-1 rounded text-xs">M</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+     </div>
+        </div>
+      </div>
+   <!-- Sección 2 -->
+      <div>
+        <button onclick="toggleAccordion('section-2')" class="w-full flex justify-between items-center bg-red-100 text-black-800 font-semibold px-4 py-3 rounded-lg">
+          Cámara de llamadas
+          <span id="icon-section-2" class="transition-transform duration-300">▼</span>
+        </button>
+        <div id="section-2" class="accordion-section hidden mt-2">
+          <div class="bg-white rounded-xl shadow-lg p-6">
+    <!-- Sección 2: Cámara de llamadas -->
+    
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-base">
+          <thead>
+            <tr class="bg-gray-100 text-gray-700 border-b">
+              <th class="py-2 px-2 text-left">Día</th>
+              <th class="py-2 px-2 text-left">Horario de apertura</th>
+              <th class="py-2 px-2 text-left">Observaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Jueves 31</td>
+              <td class="py-2 px-2">Por definir</td>
+              <td class="py-2 px-2 text-gray-600">Primera jornada</td>
+            </tr>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Viernes 1</td>
+              <td class="py-2 px-2">Por definir</td>
+              <td class="py-2 px-2 text-gray-600">Doble sesión</td>
+            </tr>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Sábado 2</td>
+              <td class="py-2 px-2">Por definir</td>
+              <td class="py-2 px-2 text-gray-600">Doble sesión</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-2 font-semibold">Domingo 3</td>
+              <td class="py-2 px-2">Por definir</td>
+              <td class="py-2 px-2 text-gray-600">Jornada final</td>
+            </tr>
+          </tbody>
+        </table>
+     
+    </div>
+    </div>
+        </div>
+      </div>
+  <!-- Sección 3 -->
+      <div>
+        <button onclick="toggleAccordion('section-3')" class="w-full flex justify-between items-center bg-red-100 text-black-800 font-semibold px-4 py-3 rounded-lg">
+          Taquilla
+          <span id="icon-section-3" class="transition-transform duration-300">▼</span>
+        </button>
+        <div id="section-3" class="accordion-section hidden mt-2">
+          <div class="bg-white rounded-xl shadow-lg p-6">
+    <!-- Sección 3: Taquilla -->
+    
+  
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-base">
+            <thead>
+              <tr class="bg-gray-100 text-gray-700 border-b">
+                <th class="py-2 px-2 text-left">Día</th>
+                <th class="py-2 px-2 text-left">Horario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b">
+                <td class="py-2 px-2 font-semibold">Jueves 31</td>
+                <td class="py-2 px-2">Por definir</td>
+              </tr>
+              <tr class="border-b">
+                <td class="py-2 px-2 font-semibold">Viernes 1</td>
+                <td class="py-2 px-2">Por definir</td>
+              </tr>
+              <tr class="border-b">
+                <td class="py-2 px-2 font-semibold">Sábado 2</td>
+                <td class="py-2 px-2">Por definir</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2 font-semibold">Domingo 3</td>
+                <td class="py-2 px-2">Por definir</td>
+              </tr>
+            </tbody>
+          </table>
+        
+     
+    </div>
+  </div>
+        </div>
+      </div>
+
+  <!-- Sección  -->
+      <div>
+        <button onclick="toggleAccordion('section-4')" class="w-full flex justify-between items-center bg-red-100 text-black-800 font-semibold px-4 py-3 rounded-lg">
+          Recogida de acreditaciones
+          <span id="icon-section-4" class="transition-transform duration-300">▼</span>
+        </button>
+        <div id="section-4" class="accordion-section hidden mt-2">
+             
+    <!-- Sección 4: Recogida de acreditaciones -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-base">
+          <thead>
+            <tr class="bg-gray-100 text-gray-700 border-b">
+              <th class="py-2 px-2 text-left">Día</th>
+              <th class="py-2 px-2 text-left">Sesiones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Jueves 31</td>
+              <td class="py-2 px-2">18:00 - 20:00</td>
+            </tr>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Viernes 1</td>
+              <td class="py-2 px-2">08:30 - 12:00 <br> 17:30 - 21:00</td>
+            </tr>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Sábado 2</td>
+              <td class="py-2 px-2">08:30 - 12:00 <br> 17:30 - 21:00</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-2 font-semibold">Domingo 3</td>
+              <td class="py-2 px-2">09:30 - 13:00 <br> 17:30 - 19:30</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+
+  </div>
+        </div>
+      </div>
+
+  <!-- Sección 5 -->
+      <div>
+        <button onclick="toggleAccordion('section-5')" class="w-full flex justify-between items-center bg-red-100 text-black-800 font-semibold px-4 py-3 rounded-lg">
+          Apertura y Accesos
+          <span id="icon-section-5" class="transition-transform duration-300">▼</span>
+        </button>
+        <div id="section-5" class="accordion-section hidden mt-2">
+          <div class="bg-white rounded-xl shadow-lg p-6">
+    <!-- Sección 5: Apertura y Accesos -->
+   
+    
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class=" p-4 rounded-lg">
+            <h3 class="font-semibold text-gray-800 mb-2">Organización, atletas y entrenadores</h3>
+            <p class="text-gray-700">2h antes del comienzo de la primera prueba</p>
+            <h3 class="font-semibold text-gray-800 mb-2">Público general</h3>
+            <p class="text-gray-700">1h antes del comienzo de la sesión</p>
+            <h3 class="font-semibold text-gray-800 mb-2">Entrenamientos</h3><p class="text-gray-700">Jueves de 18:00 a 20:00</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+        </div>
+     
+
+
+    <!-- Sección 6 -->
+      <div>
+        <button onclick="toggleAccordion('section-6')" class="w-full flex justify-between items-center bg-red-100 text-black-800 font-semibold px-4 py-3 rounded-lg">
+          Entrega de artefactos y pértigas
+          <span id="icon-section-6" class="transition-transform duration-300">▼</span>
+        </button>
+        <div id="section-6" class="accordion-section hidden mt-2">
+          <div class="bg-white rounded-xl shadow-lg p-6">    
+    <!-- Sección 6: Entrega de artefactos y pértigas -->
+   
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-base">
+          <thead>
+            <tr class=" text-gray-700 border-b">
+              <th class="py-2 px-2 text-left">Prueba</th>
+              <th class="py-2 px-2 text-left">Día</th>
+              <th class="py-2 px-2 text-left">Hora límite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Título Lanzamientos -->
+            <tr class="bg-red-600 text-white">
+              <td class="py-3 px-2 font-bold text-center" colspan="3">LANZAMIENTOS</td>
+            </tr>
+            
+            <!-- Lanzamientos -->
+            <tr class="bg-orange-50">
+              <td class="py-2 px-2">Peso Decatlón</td>
+              <td class="py-2 px-2">Jueves 31</td>
+              <td class="py-2 px-2">20:00</td>
+            </tr>
+            <tr class="bg-purple-50">
+              <td class="py-2 px-2">Disco Mujeres</td>
+              <td class="py-2 px-2">Jueves 31</td>
+              <td class="py-2 px-2">20:00</td>
+            </tr>
+            <tr class="bg-orange-50">
+              <td class="py-2 px-2">Peso Heptatlón</td>
+              <td class="py-2 px-2">Viernes 1</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+            <tr class="bg-white border-b">
+              <td class="py-2 px-2">Disco Hombres</td>
+              <td class="py-2 px-2">Viernes 1</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+            <tr class="bg-orange-50">
+              <td class="py-2 px-2">Disco Decatlón</td>
+              <td class="py-2 px-2">Viernes 1</td>
+              <td class="py-2 px-2">20:00</td>
+            </tr>
+            <tr class="bg-white border-b">
+              <td class="py-2 px-2">Martillo Hombres</td>
+              <td class="py-2 px-2">Viernes 1</td>
+              <td class="py-2 px-2">20:00</td>
+            </tr>
+            <tr class="bg-orange-50">
+              <td class="py-2 px-2">Jabalina Heptatlón</td>
+              <td class="py-2 px-2">Viernes 1</td>
+              <td class="py-2 px-2">20:00</td>
+            </tr>
+            <tr class="bg-purple-50">
+              <td class="py-2 px-2">Martillo Mujeres</td>
+              <td class="py-2 px-2">Sábado 2</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+            <tr class="bg-orange-50">
+              <td class="py-2 px-2">Jabalina Decatlón</td>
+              <td class="py-2 px-2">Sábado 2</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+            <tr class="bg-white border-b">
+              <td class="py-2 px-2">Peso Hombres</td>
+              <td class="py-2 px-2">Sábado 2</td>
+              <td class="py-2 px-2">20:00</td>
+            </tr>
+            <tr class="bg-purple-50">
+              <td class="py-2 px-2">Jabalina Mujeres</td>
+              <td class="py-2 px-2">Sábado 2</td>
+              <td class="py-2 px-2">20:00</td>
+            </tr>
+            <tr class="bg-purple-50">
+              <td class="py-2 px-2">Peso Mujeres</td>
+              <td class="py-2 px-2">Domingo 3</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+            <tr class="bg-white border-b">
+              <td class="py-2 px-2">Jabalina Hombres</td>
+              <td class="py-2 px-2">Domingo 3</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+            
+            <!-- Título Pértiga -->
+            <tr class="bg-red-600 text-white">
+              <td class="py-3 px-2 font-bold text-center" colspan="3">PÉRTIGA</td>
+            </tr>
+
+            
+            <!-- Pértiga -->
+            <tr class="bg-purple-50">
+              <td class="py-2 px-2">Mujeres</td>
+              <td class="py-2 px-2">Viernes 1</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+            <tr class="bg-orange-50">
+              <td class="py-2 px-2">Decatlón</td>
+              <td class="py-2 px-2">Viernes 1</td>
+              <td class="py-2 px-2">19:00</td>
+            </tr>
+            <tr class="bg-white">
+              <td class="py-2 px-2">Hombres</td>
+              <td class="py-2 px-2">Sábado 2</td>
+              <td class="py-2 px-2">12:00</td>
+            </tr>
+          </tbody>
+        </table>
+      
+    </div>
+    </div>
+        </div>
+      </div>
+  </main>
+</body>
+<script>
+  // Variables para el estado actual
+  let currentDay = 'viernes';
+  let isTableView = false;
+
+  // Función para mostrar el día seleccionado
+  function showDay(day) {
+    currentDay = day;
+    
+    // Actualizar botones
+    document.querySelectorAll('[id^="btn-"]').forEach(btn => {
+      btn.classList.remove('bg-red-600', 'text-white');
+      btn.classList.add('bg-gray-200', 'text-gray-700');
+    });
+    
+    document.getElementById(`btn-${day}`).classList.remove('bg-gray-200', 'text-gray-700');
+    document.getElementById(`btn-${day}`).classList.add('bg-red-600', 'text-white');
+    
+    // Actualizar enlace de descarga
+    const downloadLink = document.getElementById('download-link');
+    const downloadText = document.getElementById('download-text');
+    
+    const downloadData = {
+      'viernes': { href: 'Horario_viernes.png', text: 'Descargar horario' },
+      'sabado': { href: 'Horario_sabado.png', text: 'Descargar horario' },
+      'domingo': { href: 'Horario_domingo.png', text: 'Descargar horario' }
+    };
+    
+    downloadLink.href = downloadData[day].href;
+    downloadText.textContent = downloadData[day].text;
+    
+    // Mostrar contenido apropiado
+    if (isTableView) {
+      showTableForDay(day);
+    } else {
+      showImageForDay(day);
+    }
+  }
+
+  // Función para mostrar imagen del día
+  function showImageForDay(day) {
+    document.querySelectorAll('.day-schedule').forEach(schedule => {
+      schedule.classList.add('hidden');
+    });
+    
+    document.getElementById(`day-${day}`).classList.remove('hidden');
+  }
+
+  // Función para mostrar tabla del día
+  function showTableForDay(day) {
+    document.querySelectorAll('.day-table').forEach(table => {
+      table.classList.add('hidden');
+    });
+    
+    document.getElementById(`table-${day}`).classList.remove('hidden');
+  }
+
+  // Función para alternar entre vista de imagen y tabla
+  function toggleView() {
+    const imageView = document.getElementById('image-view');
+    const tableView = document.getElementById('table-view');
+    const toggleText = document.getElementById('toggle-text');
+    
+    if (isTableView) {
+      // Cambiar a vista de imagen
+      imageView.classList.remove('hidden');
+      tableView.classList.add('hidden');
+      toggleText.textContent = 'Ver tabla';
+      isTableView = false;
+      showImageForDay(currentDay);
+    } else {
+      // Cambiar a vista de tabla
+      imageView.classList.add('hidden');
+      tableView.classList.remove('hidden');
+      toggleText.textContent = 'Ver imagen';
+      isTableView = true;
+      showTableForDay(currentDay);
+    }
+  }
+
+  // Inicializar al cargar la página
+  document.addEventListener('DOMContentLoaded', function() {
+    showDay('viernes');
+  });
+
+   function toggleAccordion(id) {
+      const sections = document.querySelectorAll('.accordion-section');
+      const icons = document.querySelectorAll('[id^="icon-section-"]');
+
+      sections.forEach(section => {
+        const icon = document.getElementById('icon-' + section.id);
+        if (section.id === id) {
+          const isOpen = !section.classList.contains('hidden');
+          section.classList.toggle('hidden');
+          icon.textContent = isOpen ? '▼' : '▲';
+        } else {
+          section.classList.add('hidden');
+          if (icon) icon.textContent = '▼';
+        }
+      });
+    }
+</script>
+</html>
