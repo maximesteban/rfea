@@ -52,9 +52,7 @@
 
       <!-- Opciones de visualización -->
       <div class="flex flex-wrap gap-4 mb-6">
-        <a href="Horario1.png" download id="download-link" class="inline-flex items-center gap-2 text-red-600 underline px-4 py-2 rounded-lg transition-colors">
-           <span id="download-text">Descargar horario</span>
-        </a>
+      
         <button onclick="toggleView()" id="toggle-btn" class="inline-flex items-center gap-2 text-red-600 underline  px-4 py-2 rounded-lg transition-colors">
           <span id="toggle-text">Ver tabla</span>
         </button>
@@ -890,7 +888,7 @@
     const downloadLink = document.getElementById('download-link');
     const downloadText = document.getElementById('download-text');
     
-    const downloadData = {
+  const downloadData = {
       'viernes': { href: 'Horario_viernes.png', text: 'Descargar horario' },
       'sabado': { href: 'Horario_sabado.png', text: 'Descargar horario' },
       'domingo': { href: 'Horario_domingo.png', text: 'Descargar horario' }
