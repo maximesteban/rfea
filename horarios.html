@@ -1842,43 +1842,51 @@
         </button>
         <div id="section-3" class="accordion-section hidden mt-2">
           <div class="bg-white rounded-xl shadow-lg p-6">
-    <!-- Sección 3: Taquilla -->
-    
-  
-        
-        <div class="overflow-x-auto">
-          <table class="w-full text-base">
-            <thead>
-              <tr class="bg-gray-100 text-gray-700 border-b">
-                <th class="py-2 px-2 text-left">Día</th>
-                <th class="py-2 px-2 text-left">Horario</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b">
-                <td class="py-2 px-2 font-semibold">Jueves 31</td>
-                <td class="py-2 px-2">Por definir</td>
-              </tr>
-              <tr class="border-b">
-                <td class="py-2 px-2 font-semibold">Viernes 1</td>
-                <td class="py-2 px-2">Por definir</td>
-              </tr>
-              <tr class="border-b">
-                <td class="py-2 px-2 font-semibold">Sábado 2</td>
-                <td class="py-2 px-2">Por definir</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-2 font-semibold">Domingo 3</td>
-                <td class="py-2 px-2">Por definir</td>
-              </tr>
-            </tbody>
-          </table>
-        
-     
+   <!-- Sección 3: Taquilla -->
+<div>
+  <button onclick="toggleAccordion('section-3')" class="w-full flex justify-between items-center bg-red-600 text-white font-semibold px-4 py-3 rounded-lg">
+    Taquilla
+    <span id="icon-section-3" class="transition-transform duration-300">▼</span>
+  </button>
+  <div id="section-3" class="accordion-section hidden mt-2">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <div class="overflow-x-auto">
+        <table class="w-full text-base">
+          <thead>
+            <tr class="bg-gray-100 text-gray-700 border-b">
+              <th class="py-2 px-2 text-left">Día</th>
+              <th class="py-2 px-2 text-left">Sesión Mañana</th>
+              <th class="py-2 px-2 text-left">Sesión Tarde</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Jueves 31</td>
+              <td class="py-2 px-2">18:00 – 21:00</td>
+              <td class="py-2 px-2">–</td>
+            </tr>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Viernes 1</td>
+              <td class="py-2 px-2">08:00 – 12:30</td>
+              <td class="py-2 px-2">18:00 – 22:30</td>
+            </tr>
+            <tr class="border-b">
+              <td class="py-2 px-2 font-semibold">Sábado 2</td>
+              <td class="py-2 px-2">08:00 – 13:30</td>
+              <td class="py-2 px-2">18:00 – 22:30</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-2 font-semibold">Domingo 3</td>
+              <td class="py-2 px-2">09:00 – 13:00</td>
+              <td class="py-2 px-2">18:00 – 22:00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-        </div>
-      </div>
+</div>
+
 
   <!-- Sección 4  -->
       <div>
