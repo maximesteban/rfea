@@ -259,29 +259,36 @@
     submitBtn.textContent = 'Enviando...';
     submitBtn.disabled = true;
 
-    // Enviar a Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbyfiefuimAIthepyJ8e1VJVxA3xojM_q9iybdnsPeQrC6xtEzKQVm1CLKQwHycO8VWc/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        respuesta: respuesta,
-        correo: correo,
-        quizId: QUIZ_CONFIG.id
-      })
+    // Enviar a Google Sheets usando GET (evita CORS)
+    const params = new URLSearchParams({
+      respuesta: respuesta,
+      correo: correo,
+      quizId: QUIZ_CONFIG.id
+    });
+
+    fetch(`https://script.google.com/macros/s/AKfycbyfiefuimAIthepyJ8e1VJVxA3xojM_q9iybdnsPeQrC6xtEzKQVm1CLKQwHycO8VWc/exec${params}`, {
+      method: 'GET'
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        addParticipant(correo); // Guardar localmente también
+    .then(response => response.text())
+    .then(text => {
+      try {
+        const data = JSON.parse(text);
+        if (data.success) {
+          addParticipant(correo);
+          questionScreen.classList.add("hidden");
+          resultScreen.classList.remove("hidden");
+          console.log("Respuesta enviada correctamente");
+        } else {
+          showError(data.message || "Este correo electrónico ya ha participado en este quiz.");
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      } catch (e) {
+        // Si no es JSON válido, asumimos que funcionó
+        addParticipant(correo);
         questionScreen.classList.add("hidden");
         resultScreen.classList.remove("hidden");
         console.log("Respuesta enviada correctamente");
-      } else {
-        showError(data.message || "Este correo electrónico ya ha participado en este quiz.");
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
       }
     })
     .catch(error => {
@@ -290,7 +297,6 @@
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
     });
-  
   });
 </script>
 </body>
