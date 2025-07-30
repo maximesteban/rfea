@@ -256,7 +256,7 @@
   }
 
     // ...existing code...
-    // VERIFICACIÓN SIMPLIFICADA: Un solo paso
+    // VERIFICACIÓN PERFECTA: Check → Decide → Act
     form.addEventListener("submit", function(e) {
       e.preventDefault();
       clearError();
@@ -274,12 +274,78 @@
       clearInterval(questionInterval);
   
       const submitBtn = e.target.querySelector('button[type="submit"]');
-      submitBtn.textContent = 'Enviando...';
+      submitBtn.textContent = 'Verificando...';
       submitBtn.disabled = true;
   
-      // ENVÍO DIRECTO - Un solo request
+      // PASO 1: VERIFICAR si existe en Google Sheets
+      verificarEmailEnServidor(correo)
+        .then((emailExiste) => {
+          if (emailExiste) {
+            // EMAIL DUPLICADO - Mostrar error
+            showError("Este correo electrónico ya ha participado en este quiz.");
+            submitBtn.textContent = 'Enviar respuesta';
+            submitBtn.disabled = false;
+          } else {
+            // EMAIL VÁLIDO - Mostrar "Gracias" primero, luego guardar
+            mostrarGraciasYGuardar(respuesta, correo, submitBtn);
+          }
+        })
+        .catch((error) => {
+          console.log('Error en verificación, continuando:', error);
+          // En caso de error, continuar
+          mostrarGraciasYGuardar(respuesta, correo, submitBtn);
+        });
+    });
+  
+    function verificarEmailEnServidor(correo) {
+      return new Promise((resolve, reject) => {
+        const checkImg = new Image();
+        const checkParams = new URLSearchParams({
+          action: 'check',
+          correo: correo,
+          quizId: QUIZ_CONFIG.id,
+          timestamp: Date.now()
+        });
+        
+        checkImg.src = `https://script.google.com/macros/s/AKfycbwhAFUTFr3KhbMnVs7nFYN6J15Nl9zijYbaQCAcFDrLPdP3-qMAIy51IHyJj03mhBQb/exec?${checkParams}`;
+        
+        checkImg.onload = function() {
+          // Email NO duplicado (respuesta OK)
+          console.log("✅ Email verificado, no duplicado");
+          resolve(false); // false = no existe = válido
+        };
+        
+        checkImg.onerror = function() {
+          // Email duplicado (servidor respondió con HTML)
+          console.log("❌ Email duplicado detectado por servidor");
+          resolve(true); // true = existe = duplicado
+        };
+  
+        // Timeout de seguridad
+        setTimeout(() => {
+          console.log("⏰ Timeout de verificación, asumiendo válido");
+          resolve(false); // En caso de timeout, asumir válido
+        }, 8000);
+      });
+    }
+  
+    function mostrarGraciasYGuardar(respuesta, correo, submitBtn) {
+      // PRIMERO: Mostrar "Gracias por participar"
+      addParticipant(correo); // Backup local
+      questionScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+      console.log("✅ Mostrando gracias por participar");
+      
+      // DESPUÉS: Guardar en background
+      setTimeout(() => {
+        guardarEnBackground(respuesta, correo);
+      }, 500);
+    }
+  
+    function guardarEnBackground(respuesta, correo) {
       const img = new Image();
       const params = new URLSearchParams({
+        action: 'save',
         respuesta: respuesta,
         correo: correo,
         quizId: QUIZ_CONFIG.id,
@@ -289,25 +355,13 @@
       img.src = `https://script.google.com/macros/s/AKfycbwhAFUTFr3KhbMnVs7nFYN6J15Nl9zijYbaQCAcFDrLPdP3-qMAIy51IHyJj03mhBQb/exec?${params}`;
       
       img.onload = function() {
-        console.log("✅ Datos procesados correctamente");
+        console.log("✅ Datos guardados en background");
       };
       
       img.onerror = function() {
-        console.log("📡 Datos enviados (normal que dé 'error')");
+        console.log("📡 Datos enviados en background (normal)");
       };
-      
-      // SIEMPRE continuar el flujo (Google Apps Script decide si guarda)
-      setTimeout(() => {
-        addParticipant(correo); // Backup local
-        questionScreen.classList.add("hidden");
-        resultScreen.classList.remove("hidden");
-        console.log("Respuesta enviada correctamente");
-      }, 1500);
-    });
-  
-    // ELIMINAR todas estas funciones:
-    // - verificarEmailEnServidor
-    // - enviarRespuesta
+    }
   // ...existing code...
 
 </script>
