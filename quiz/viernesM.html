@@ -237,76 +237,78 @@
     }, 1000);
   }
 
-        // ...existing code...
-        form.addEventListener("submit", function(e) {
-          e.preventDefault();
-          clearError();
-          
-          const formData = new FormData(form);
-          const respuesta = formData.get("respuesta");
-          const correo = formData.get("correo");
+// ...existing code...
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    clearError();
     
-          // Verificar localmente si el email ya participó (backup)
-          if (hasParticipated(correo)) {
-            showError("Este correo electrónico ya ha participado en este quiz. Solo se permite una participación por email.");
-            return;
-          }
-    
-          clearInterval(questionInterval);
-    
-          // Mostrar loading
-          const submitBtn = e.target.querySelector('button[type="submit"]');
-          const originalText = submitBtn.textContent;
-          submitBtn.textContent = 'Enviando...';
-          submitBtn.disabled = true;
-    
-          // Crear iframe oculto para evitar CORS
-          const iframe = document.createElement('iframe');
-          iframe.style.display = 'none';
-          iframe.name = 'hidden_iframe';
-          document.body.appendChild(iframe);
-    
-          // Crear form oculto
-          const hiddenForm = document.createElement('form');
-          hiddenForm.target = 'hidden_iframe';
-          hiddenForm.method = 'POST';
-          hiddenForm.action = 'https://script.google.com/macros/s/AKfycbyfiefuimAIthepyJ8e1VJVxA3xojM_q9iybdnsPeQrC6xtEzKQVm1CLKQwHycO8VWc/exec';
-    
-          // Agregar campos
-          const fields = {
-            respuesta: respuesta,
-            correo: correo,
-            quizId: QUIZ_CONFIG.id
-          };
-    
-          Object.keys(fields).forEach(key => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = fields[key];
-            hiddenForm.appendChild(input);
-          });
-    
-          document.body.appendChild(hiddenForm);
-    
-          // Configurar callback cuando se carga el iframe
-          iframe.onload = function() {
-            // Limpiar elementos temporales
-            document.body.removeChild(iframe);
-            document.body.removeChild(hiddenForm);
-            
-            // Continuar con el flujo
-            addParticipant(correo);
-            questionScreen.classList.add("hidden");
-            resultScreen.classList.remove("hidden");
-            console.log("Respuesta enviada correctamente");
-          };
-    
-          // Enviar formulario
-          hiddenForm.submit();
-        });
-    // ...existing code...
-  // ...existing code...
+    const formData = new FormData(form);
+    const respuesta = formData.get("respuesta");
+    const correo = formData.get("correo");
+
+    // Verificar localmente si el email ya participó (backup)
+    if (hasParticipated(correo)) {
+      showError("Este correo electrónico ya ha participado en este quiz. Solo se permite una participación por email.");
+      return;
+    }
+
+    clearInterval(questionInterval);
+
+    // Mostrar loading
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+
+    // Crear iframe oculto para evitar CORS
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'hidden_iframe';
+    document.body.appendChild(iframe);
+
+    // Crear form oculto
+    const hiddenForm = document.createElement('form');
+    hiddenForm.target = 'hidden_iframe';
+    hiddenForm.method = 'POST';
+    hiddenForm.action = 'https://script.google.com/macros/s/AKfycbyfiefuimAIthepyJ8e1VJVxA3xojM_q9iybdnsPeQrC6xtEzKQVm1CLKQwHycO8VWc/exec';
+
+    // Agregar campos
+    const fields = {
+      respuesta: respuesta,
+      correo: correo,
+      quizId: QUIZ_CONFIG.id
+    };
+
+    Object.keys(fields).forEach(key => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = fields[key];
+      hiddenForm.appendChild(input);
+    });
+
+    document.body.appendChild(hiddenForm);
+
+    // CAMBIO CRÍTICO: Usar setTimeout en lugar de onload
+    setTimeout(() => {
+      try {
+        document.body.removeChild(iframe);
+        document.body.removeChild(hiddenForm);
+      } catch(e) {
+        console.log('Error limpiando elementos:', e);
+      }
+      
+      // Continuar con el flujo
+      addParticipant(correo);
+      questionScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+      console.log("Respuesta enviada correctamente");
+    }, 3000); // Esperar 3 segundos para que se envíen los datos
+
+    // Enviar formulario
+    hiddenForm.submit();
+  });
+// ...existing code...
 </script>
 </body>
 </html>
