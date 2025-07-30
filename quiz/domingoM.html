@@ -136,6 +136,9 @@
     <form id="quiz-form" class="space-y-4">
       <input type="text" name="respuesta" placeholder="Tu respuesta" required class="w-full px-4 py-3 rounded-lg text-black">
       <input type="email" name="correo" placeholder="Tu correo electrónico" required class="w-full px-4 py-3 rounded-lg text-black">
+     <div class="disclaimer">
+      ⚠️ El sistema guardará únicamente la primera respuesta por usuario.
+    </div>
       <button type="submit" class="w-full py-3 bg-red-700 text-white font-bold rounded-lg hover:bg-red-100 transition" style="background-color: #dd0020;">Enviar respuesta</button>
     </form>
   </div>
@@ -237,60 +240,56 @@
     }, 1000);
   }
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-    clearError();
-    
-    const formData = new FormData(form);
-    const respuesta = formData.get("respuesta");
-    const correo = formData.get("correo");
-
-    // Verificar localmente si el email ya participó (backup)
-    if (hasParticipated(correo)) {
-      showError("Este correo electrónico ya ha participado en este quiz. Solo se permite una participación por email.");
-      return;
-    }
-
-    clearInterval(questionInterval);
-
-    // Mostrar loading
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Enviando...';
-    submitBtn.disabled = true;
-
-    // Enviar a Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbz4hxDdmZGogRC-zCSkiOHrGq8l978qpkuJ0P446ImTZAi7995f_7S7hg2pZIQLWLx_/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        respuesta: respuesta,
-        correo: correo,
-        quizId: QUIZ_CONFIG.id
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        addParticipant(correo); // Guardar localmente también
-        questionScreen.classList.add("hidden");
-        resultScreen.classList.remove("hidden");
-        console.log("Respuesta enviada correctamente");
-      } else {
-        showError(data.message || "Este correo electrónico ya ha participado en este quiz.");
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showError("Error al enviar respuesta. Verifica tu conexión e inténtalo de nuevo.");
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
-    });
-  });
+ form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          clearError();
+          
+          const formData = new FormData(form);
+          const respuesta = formData.get("respuesta");
+          const correo = formData.get("correo");
+      
+          // NIVEL 1: Verificación local (rápida)
+          if (hasParticipated(correo)) {
+            showError("Este correo electrónico ya ha participado en este quiz.");
+            return;
+          }
+      
+          // 🛑 PARAR TIMER Y BARRA INMEDIATAMENTE
+          clearInterval(questionInterval);
+          const timeProgress = document.getElementById("timeProgress");
+          timeProgress.style.animationPlayState = 'paused';
+      
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+          submitBtn.textContent = 'Enviando...';
+          submitBtn.disabled = true;
+      
+          // ENVÍO DIRECTO - Google Apps Script decide si guarda
+          const img = new Image();
+          const params = new URLSearchParams({
+            respuesta: respuesta,
+            correo: correo,
+            quizId: QUIZ_CONFIG.id,
+            timestamp: Date.now()
+          });
+          
+          img.src = `https://script.google.com/macros/s/AKfycbzDsLOuwjfZPhDQLbK7WgiueApUke407ruTxLtNSo__URON7USlPKRWi5DCSuroyR__/exec?${params}`;
+          
+          img.onload = function() {
+            console.log("✅ Datos procesados correctamente");
+          };
+          
+          img.onerror = function() {
+            console.log("📡 Datos enviados (normal que dé 'error')");
+          };
+          
+          // SIEMPRE mostrar "Gracias por participar"
+          setTimeout(() => {
+            addParticipant(correo);
+            questionScreen.classList.add("hidden");
+            resultScreen.classList.remove("hidden");
+            console.log("Respuesta enviada correctamente");
+          }, 1500);
+        });
 </script>
 </body>
 </html>
