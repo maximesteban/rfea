@@ -266,7 +266,7 @@
       quizId: QUIZ_CONFIG.id
     });
 
-    fetch(`https://script.google.com/macros/s/AKfycbyfiefuimAIthepyJ8e1VJVxA3xojM_q9iybdnsPeQrC6xtEzKQVm1CLKQwHycO8VWc/exec${params}`, {
+    fetch(`https://script.google.com/macros/s/AKfycbyfiefuimAIthepyJ8e1VJVxA3xojM_q9iybdnsPeQrC6xtEzKQVm1CLKQwHycO8VWc/exec?${params}`, {
       method: 'GET'
     })
     .then(response => response.text())
