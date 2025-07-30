@@ -256,7 +256,7 @@
   }
 
     // ...existing code...
-    // VERIFICACIÓN SIMPLIFICADA: Un solo paso
+    // VERIFICACIÓN MEJORADA: Frontend + Backend
     form.addEventListener("submit", function(e) {
       e.preventDefault();
       clearError();
@@ -274,12 +274,53 @@
       clearInterval(questionInterval);
   
       const submitBtn = e.target.querySelector('button[type="submit"]');
-      submitBtn.textContent = 'Enviando...';
+      submitBtn.textContent = 'Verificando...';
       submitBtn.disabled = true;
   
-      // ENVÍO DIRECTO - Google Apps Script maneja duplicados
+      // NIVEL 2: Verificación contra Google Sheets (real)
+      verificarEmailEnServidor(correo, respuesta, submitBtn);
+    });
+  
+    function verificarEmailEnServidor(correo, respuesta, submitBtn) {
+      const checkImg = new Image();
+      const checkParams = new URLSearchParams({
+        action: 'verify',
+        correo: correo,
+        quizId: QUIZ_CONFIG.id,
+        timestamp: Date.now()
+      });
+      
+      checkImg.src = `https://script.google.com/macros/s/AKfycbwhAFUTFr3KhbMnVs7nFYN6J15Nl9zijYbaQCAcFDrLPdP3-qMAIy51IHyJj03mhBQb/exec?${checkParams}`;
+      
+      checkImg.onload = function() {
+        // Email NO está duplicado, proceder a enviar
+        console.log("✅ Email verificado, no duplicado");
+        enviarRespuesta(respuesta, correo, submitBtn);
+      };
+      
+      checkImg.onerror = function() {
+        // Email duplicado detectado por servidor
+        console.log("❌ Email duplicado detectado por servidor");
+        showError("Este correo electrónico ya ha participado en este quiz.");
+        submitBtn.textContent = 'Enviar respuesta';
+        submitBtn.disabled = false;
+      };
+  
+      // Timeout de seguridad
+      setTimeout(() => {
+        if (submitBtn.textContent === 'Verificando...') {
+          console.log("⏰ Timeout de verificación, procediendo");
+          enviarRespuesta(respuesta, correo, submitBtn);
+        }
+      }, 5000);
+    }
+  
+    function enviarRespuesta(respuesta, correo, submitBtn) {
+      submitBtn.textContent = 'Enviando...';
+      
       const img = new Image();
       const params = new URLSearchParams({
+        action: 'submit',
         respuesta: respuesta,
         correo: correo,
         quizId: QUIZ_CONFIG.id,
@@ -289,24 +330,24 @@
       img.src = `https://script.google.com/macros/s/AKfycbwhAFUTFr3KhbMnVs7nFYN6J15Nl9zijYbaQCAcFDrLPdP3-qMAIy51IHyJj03mhBQb/exec?${params}`;
       
       img.onload = function() {
-        console.log("✅ Datos procesados correctamente");
+        console.log("✅ Datos enviados correctamente");
       };
       
       img.onerror = function() {
         console.log("📡 Datos enviados (normal que dé 'error')");
       };
       
-      // SIEMPRE continuar el flujo (Google Apps Script decide si guarda)
       setTimeout(() => {
         addParticipant(correo); // Backup local
         questionScreen.classList.add("hidden");
         resultScreen.classList.remove("hidden");
         console.log("Respuesta enviada correctamente");
       }, 1500);
-    });
+    }
   
-    // ELIMINAR función enviarRespuesta ya no es necesaria
+    // ELIMINAR funciones antiguas: checkDuplicateWithImage y finalizarEnvio
   // ...existing code...
+
 </script>
 </body>
 </html>
