@@ -256,7 +256,7 @@
   }
 
     // ...existing code...
-    // VERIFICACIÓN PERFECTA: Check → Decide → Act
+    // VERIFICACIÓN ROBUSTA CON RETRASO
     form.addEventListener("submit", function(e) {
       e.preventDefault();
       clearError();
@@ -277,69 +277,68 @@
       submitBtn.textContent = 'Verificando...';
       submitBtn.disabled = true;
   
-      // PASO 1: VERIFICAR si existe en Google Sheets
-      verificarEmailEnServidor(correo)
-        .then((emailExiste) => {
-          if (emailExiste) {
-            // EMAIL DUPLICADO - Mostrar error
-            showError("Este correo electrónico ya ha participado en este quiz.");
-            submitBtn.textContent = 'Enviar respuesta';
-            submitBtn.disabled = false;
-          } else {
-            // EMAIL VÁLIDO - Mostrar "Gracias" primero, luego guardar
-            mostrarGraciasYGuardar(respuesta, correo, submitBtn);
-          }
-        })
-        .catch((error) => {
-          console.log('Error en verificación, continuando:', error);
-          // En caso de error, continuar
-          mostrarGraciasYGuardar(respuesta, correo, submitBtn);
-        });
+      // VERIFICACIÓN CON MÚLTIPLES INTENTOS
+      verificarEmailConReintentos(correo, respuesta, submitBtn, 0);
     });
   
-    function verificarEmailEnServidor(correo) {
-      return new Promise((resolve, reject) => {
-        const checkImg = new Image();
-        const checkParams = new URLSearchParams({
-          action: 'check',
-          correo: correo,
-          quizId: QUIZ_CONFIG.id,
-          timestamp: Date.now()
-        });
-        
-        checkImg.src = `https://script.google.com/macros/s/AKfycbwhAFUTFr3KhbMnVs7nFYN6J15Nl9zijYbaQCAcFDrLPdP3-qMAIy51IHyJj03mhBQb/exec?${checkParams}`;
-        
-        checkImg.onload = function() {
-          // Email NO duplicado (respuesta OK)
-          console.log("✅ Email verificado, no duplicado");
-          resolve(false); // false = no existe = válido
-        };
-        
-        checkImg.onerror = function() {
-          // Email duplicado (servidor respondió con HTML)
-          console.log("❌ Email duplicado detectado por servidor");
-          resolve(true); // true = existe = duplicado
-        };
+    function verificarEmailConReintentos(correo, respuesta, submitBtn, intento) {
+      if (intento >= 3) {
+        // Después de 3 intentos, continuar (asumir válido)
+        console.log("⏰ Máximo de intentos alcanzado, continuando");
+        mostrarGraciasYGuardar(respuesta, correo, submitBtn);
+        return;
+      }
   
-        // Timeout de seguridad
-        setTimeout(() => {
-          console.log("⏰ Timeout de verificación, asumiendo válido");
-          resolve(false); // En caso de timeout, asumir válido
-        }, 8000);
+      const checkImg = new Image();
+      const checkParams = new URLSearchParams({
+        action: 'check',
+        correo: correo,
+        quizId: QUIZ_CONFIG.id,
+        timestamp: Date.now() + intento * 1000 // Timestamp único por intento
       });
+      
+      checkImg.src = `https://script.google.com/macros/s/AKfycbwhAFUTFr3KhbMnVs7nFYN6J15Nl9zijYbaQCAcFDrLPdP3-qMAIy51IHyJj03mhBQb/exec?${checkParams}`;
+      
+      checkImg.onload = function() {
+        // Email NO duplicado
+        console.log(`✅ Email verificado (intento ${intento + 1}), no duplicado`);
+        mostrarGraciasYGuardar(respuesta, correo, submitBtn);
+      };
+      
+      checkImg.onerror = function() {
+        console.log(`❓ Error en verificación (intento ${intento + 1})`);
+        
+        // Esperar y reintentar
+        setTimeout(() => {
+          verificarEmailConReintentos(correo, respuesta, submitBtn, intento + 1);
+        }, 1000 * (intento + 1)); // Retraso incremental
+      };
+  
+      // Timeout específico por intento
+      setTimeout(() => {
+        if (submitBtn.textContent === 'Verificando...') {
+          console.log(`⏰ Timeout intento ${intento + 1}`);
+          // Reintentar o continuar
+          if (intento < 2) {
+            verificarEmailConReintentos(correo, respuesta, submitBtn, intento + 1);
+          } else {
+            mostrarGraciasYGuardar(respuesta, correo, submitBtn);
+          }
+        }
+      }, 3000);
     }
   
     function mostrarGraciasYGuardar(respuesta, correo, submitBtn) {
       // PRIMERO: Mostrar "Gracias por participar"
-      addParticipant(correo); // Backup local
+      addParticipant(correo);
       questionScreen.classList.add("hidden");
       resultScreen.classList.remove("hidden");
       console.log("✅ Mostrando gracias por participar");
       
-      // DESPUÉS: Guardar en background
+      // DESPUÉS: Guardar en background con retraso
       setTimeout(() => {
         guardarEnBackground(respuesta, correo);
-      }, 500);
+      }, 2000); // Retraso de 2 segundos
     }
   
     function guardarEnBackground(respuesta, correo) {
@@ -362,6 +361,8 @@
         console.log("📡 Datos enviados en background (normal)");
       };
     }
+  
+    // ELIMINAR función verificarEmailEnServidor antigua
   // ...existing code...
 
 </script>
