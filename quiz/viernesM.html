@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz RFEA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .countdown-circle {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+    }
+    
+    .countdown-circle svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    
+    .countdown-circle .circle-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 4;
+    }
+    
+   .countdown-circle .circle-progress {
+      fill: none;
+      stroke: url(#gradient);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 314;
+      stroke-dashoffset: 0;
+      animation: countdown-progress 5s linear forwards;
+    }
+    
+    @keyframes countdown-progress {
+      from {
+        stroke-dashoffset: 0;
+      }
+      to {
+        stroke-dashoffset: 314;
+      }
+    }
+    
+    .countdown-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* Barra de tiempo para la pregunta */
+    .time-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .time-progress {
+      height: 100%;
+      background: linear-gradient(90deg, #fbbf24 0%, #f97316 100%);
+      width: 100%;
+      transition: width 0.1s linear;
+      /* La duración se actualiza dinámicamente */
+    }
+
+    .time-text {
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 10px;
+    }
+
+    .error-message {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid #ef4444;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col items-center justify-center p-4" style="background-color: #0e0e0e;">
+
+  <!-- Pantalla de cuenta atrás -->
+  <div id="start-screen" class="text-center space-y-6 fade-in">
+    <img src="logo.svg" alt="Logo RFEA" class="mx-auto w-72 h-auto brightness-0 invert">
+    <h1 class="text-3xl font-bold">¿Estás preparado?</h1>
+    <p class="text-lg">Tu reto está a punto de comenzar</p>
+    <div class="countdown-circle">
+      <svg>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f4c249;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#ee9824;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+        <circle class="circle-progress" cx="60" cy="60" r="50"></circle>
+      </svg>
+      <div id="countdown" class="countdown-number">5</div>
+    </div>
+  </div>
+
+  <!-- Pantalla de pregunta -->
+  <div id="question-screen" class="hidden w-full max-w-xl mx-auto fade-in">
+    <div class="time-text underline" style="color:#ee9824;">
+      <span id="time-remaining">30</span> segundos restantes
+    </div>
+    <div class="time-bar">
+      <div class="time-progress" id="timeProgress"></div>
+    </div>
+    <h2 id="question-text" class="text-2xl font-bold text-center mb-6">¿Cómo se llaman los defensores del título de heptatlón y decatlón?</h2>
+    <div id="error-container"></div>
+    <form id="quiz-form" class="space-y-4">
+      <input type="text" name="respuesta" placeholder="Tu respuesta" required class="w-full px-4 py-3 rounded-lg text-black">
+      <input type="email" name="correo" placeholder="Tu correo electrónico" required class="w-full px-4 py-3 rounded-lg text-black">
+      <button type="submit" class="w-full py-3 bg-red-700 text-white font-bold rounded-lg hover:bg-red-100 transition" style="background-color: #dd0020;">Enviar respuesta</button>
+    </form>
+  </div>
+
+  <!-- Pantalla de resultado -->
+  <div id="result-screen" class="hidden text-center space-y-4 fade-in mt-8">
+    <img src="logo.svg" alt="Logo RFEA" class="mx-auto w-72 h-auto brightness-0 invert mb-4">
+    <h3 class="text-3xl font-semibold" id="result-message">Gracias por participar</h3>
+    <p class="underline" style="color:#ee9824;">Contactaremos por correo electrónico con el ganador.</p>
+  </div>
+
+<script>
+  // 🔥 CONFIGURACIÓN DEL QUIZ - CAMBIA SOLO ESTA PARTE PARA CADA QUIZ
+  const QUIZ_CONFIG = {
+    id: 'viernesM',
+    pregunta: '¿Cómo se llaman los defensores del título de heptatlón y decatlón?',
+    tiempo: 30,
+    titulo: 'Quiz RFEA - viernesM'
+  };
+
+  // Aplicar configuración
+  document.title = QUIZ_CONFIG.titulo;
+  document.getElementById('question-text').textContent = QUIZ_CONFIG.pregunta;
+  document.getElementById('time-remaining').textContent = QUIZ_CONFIG.tiempo;
+
+  let countdown = 5;
+  let questionTime = QUIZ_CONFIG.tiempo;
+  let questionInterval;
+  const countdownEl = document.getElementById("countdown");
+  const startScreen = document.getElementById("start-screen");
+  const questionScreen = document.getElementById("question-screen");
+  const resultScreen = document.getElementById("result-screen");
+  const form = document.getElementById("quiz-form");
+  const timeRemainingEl = document.getElementById("time-remaining");
+  const errorContainer = document.getElementById("error-container");
+
+  // Función para verificar si el email ya participó (por quiz específico)
+  function hasParticipated(email) {
+    const participants = JSON.parse(localStorage.getItem(`quiz_participants_${QUIZ_CONFIG.id}`) || '[]');
+    return participants.includes(email.toLowerCase());
+  }
+
+  // Función para agregar email a la lista de participantes
+  function addParticipant(email) {
+    const participants = JSON.parse(localStorage.getItem(`quiz_participants_${QUIZ_CONFIG.id}`) || '[]');
+    participants.push(email.toLowerCase());
+    localStorage.setItem(`quiz_participants_${QUIZ_CONFIG.id}`, JSON.stringify(participants));
+  }
+
+  // Función para mostrar mensaje de error
+  function showError(message) {
+    errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+  }
+
+  // Función para limpiar mensaje de error
+  function clearError() {
+    errorContainer.innerHTML = '';
+  }
+
+  const interval = setInterval(() => {
+    countdown -= 1;
+    countdownEl.textContent = countdown;
+    if (countdown === 0) {
+      clearInterval(interval);
+      startScreen.classList.add("hidden");
+      questionScreen.classList.remove("hidden");
+      startQuestionTimer();
+    }
+  }, 1000);
+
+  function startQuestionTimer() {
+    // Configurar animación de barra dinámicamente
+    const timeProgress = document.getElementById("timeProgress");
+    timeProgress.style.animation = `time-countdown-${QUIZ_CONFIG.tiempo} ${QUIZ_CONFIG.tiempo}s linear forwards`;
+    
+    // Crear keyframe dinámico si no existe
+    if (!document.querySelector(`style[data-quiz="${QUIZ_CONFIG.id}"]`)) {
+      const style = document.createElement('style');
+      style.setAttribute('data-quiz', QUIZ_CONFIG.id);
+      style.textContent = `
+        @keyframes time-countdown-${QUIZ_CONFIG.tiempo} {
+          from { width: 100%; }
+          to { width: 0%; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    questionInterval = setInterval(() => {
+      questionTime -= 1;
+      timeRemainingEl.textContent = questionTime;
+      
+      if (questionTime === 0) {
+        clearInterval(questionInterval);
+        questionScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+        document.getElementById("result-message").textContent = "¡Tiempo agotado!";
+      }
+    }, 1000);
+  }
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    clearError();
+    
+    const formData = new FormData(form);
+    const respuesta = formData.get("respuesta");
+    const correo = formData.get("correo");
+
+    // Verificar localmente si el email ya participó (backup)
+    if (hasParticipated(correo)) {
+      showError("Este correo electrónico ya ha participado en este quiz. Solo se permite una participación por email.");
+      return;
+    }
+
+    clearInterval(questionInterval);
+
+    // Mostrar loading
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+
+    // Enviar a Google Sheets
+    fetch('https://script.google.com/macros/s/AKfycbz4hxDdmZGogRC-zCSkiOHrGq8l978qpkuJ0P446ImTZAi7995f_7S7hg2pZIQLWLx_/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        respuesta: respuesta,
+        correo: correo,
+        quizId: QUIZ_CONFIG.id
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        addParticipant(correo); // Guardar localmente también
+        questionScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+        console.log("Respuesta enviada correctamente");
+      } else {
+        showError(data.message || "Este correo electrónico ya ha participado en este quiz.");
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showError("Error al enviar respuesta. Verifica tu conexión e inténtalo de nuevo.");
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    });
+  });
+</script>
+</body>
+</html>
