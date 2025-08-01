@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFEA TV - Videos Disponibles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'youtube-red': '#ff0000',
+                        'youtube-red-hover': '#cc0000',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Aspect ratio personalizado para videos 16:9 */
+        .aspect-video-custom {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+        
+        .aspect-video-custom iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans m-0 p-5 md:p-8">
+    <!-- Header Container -->
+     <!-- LIVE 
+    <div class="text-center max-w-4xl mx-auto mb-10 p-5">
+        <h1 class="text-gray-800 text-3xl md:text-4xl font-bold mb-4">
+            RFEA TV - Emisiones Disponibles
+        </h1>
+        <a href="https://www.youtube.com/@rfeatv" 
+           target="_blank" 
+           class="inline-block bg-youtube-red hover:bg-youtube-red-hover text-white px-6 py-3 rounded-lg font-bold transition-colors duration-300 ease-in-out transform hover:scale-105">
+            Visitar Canal RFEA TV
+        </a>
+    </div>
+<!-- NO LIVE -->
+        .
+        <!-- NO LIVE -->
+        <div class="text-center max-w-4xl mx-auto mb-10 p-8">
+            <!-- Icono de estado -->
+            <div class="mb-6">
+                <svg class="mx-auto w-24 h-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            
+            <!-- Título principal -->
+            <h1 class="text-gray-800 text-3xl md:text-4xl font-bold mb-4">
+                No hay emisiones en vivo
+            </h1>
+            
+            <!-- Mensaje descriptivo -->
+            <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+                Actualmente no hay transmisiones en directo disponibles. Te invitamos a visitar nuestro canal para ver contenido grabado y mantenerte al día con las últimas competiciones.
+            </p>
+            
+            <!-- Botones de acción -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <!-- Botón principal -->
+                <a href="https://www.youtube.com/@rfeatv" 
+                   target="_blank" 
+                   class="inline-flex items-center bg-youtube-red hover:bg-youtube-red-hover text-white px-8 py-4 rounded-lg font-bold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    Visitar Canal RFEA TV
+                </a>
+                
+                <!-- Botón secundario -->
+                <button onclick="window.location.reload()" 
+                        class="inline-flex items-center bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-4 rounded-lg font-medium transition-all duration-300 ease-in-out">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Actualizar página
+                </button>
+            </div>
+            
+           
+        </div>
+    
+    </div>
+
+
+    <!-- Videos Container 
+    <div class="max-w-4xl mx-auto space-y-6"> 
+        <!-- Video 1 
+        <div class="aspect-video-custom bg-white rounded-lg shadow-md overflow-hidden">
+            <iframe src="https://www.youtube.com/embed/x2jM2rXPKnU?si=4Jwg7mfqGP9DQ-QE" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+        </div> 
+
+        <!-- Video 2 
+        <div class="aspect-video-custom bg-white rounded-lg shadow-md overflow-hidden">
+            <iframe src="https://www.youtube.com/embed/g7r7di7CD1A?si=FZ8q9V60k-Jqt8Vo" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+        </div>
+
+        <!-- Video 3 
+        <div class="aspect-video-custom bg-white rounded-lg shadow-md overflow-hidden">
+            <iframe src="https://www.youtube.com/embed/OaPbluwQtpc?si=D9Rnv9BxRrr4liuQ" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+        </div>
+
+        <!-- Video 4 
+        <div class="aspect-video-custom bg-white rounded-lg shadow-md overflow-hidden">
+            <iframe src="https://www.youtube.com/embed/wrCF-6z_MgQ?si=ogZvpmtNUXeY6VLh" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+        </div>
+
+        <!-- Video 5 
+        <div class="aspect-video-custom bg-white rounded-lg shadow-md overflow-hidden">
+            <iframe src="https://www.youtube.com/embed/9JkQY6jQoFo?si=nVF8O8s14xFicaH8" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+        </div>
+
+        <!-- Video 6 
+        <div class="aspect-video-custom bg-white rounded-lg shadow-md overflow-hidden">
+            <iframe src="https://www.youtube.com/embed/epKR8q7VilA?si=s4or9A_3M8WsIv5n" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+    <!-- Footer opcional -->
+    <div class="text-center mt-12 mb-8">
+        <p class="text-gray-500 text-sm">
+            © 2025 RFEA TV - Real Federación Española de Atletismo
+        </p>
+    </div>
+</body>
+</html>
